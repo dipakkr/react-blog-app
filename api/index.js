@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { MongoClient } from 'mongodb';
-import { async } from 'q';
 
 const app = express();
 
@@ -15,7 +14,7 @@ const withDB = async (operations) =>{
         await operations(db);
         client.close();
     }catch(e){
-        res.status(500).json({message : "Error Connecting to DB"});
+        
     }
 }
 
