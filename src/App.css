@@ -73,6 +73,12 @@ nav a:hover {
   padding: 16px;
 }
 
+.add-comment-form--input-fields {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
 #add-comment-form h3 {
   margin-bottom: 16px;
 }

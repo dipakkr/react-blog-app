@@ -15,3 +15,9 @@
 
 
 ## ScreenShots
+<img src="./screenshots/article_page.png" 
+    style="max-width: 300; height: auto; width: 100%;"  />
+
+   
+<img src="./screenshots/home_page.png" 
+    style="max-width: 300; height: auto; width: 100%;"  />
