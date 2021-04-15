@@ -1,56 +1,60 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 
-import ArticleContent from './ArticleContent';
-import NotFound from '../NotFound/NotFound';
-import ArticleList from './ArticleList';
-import CommentList from '../Comment/CommentList';
-import UpvoteSection from '../Comment/UpvoteSection';
-import AddCommentForm from '../Comment/AddCommentForm';
+import ArticleContent from "./ArticleContent";
+import NotFound from "../NotFound/NotFound";
+import ArticleList from "./ArticleList";
+import CommentList from "../Comment/CommentList";
+import UpvoteSection from "../Comment/UpvoteSection";
+import AddCommentForm from "../Comment/AddCommentForm";
 
-const ArticlePage = ({match}) => {
-    
-    const name = match.params.name;
-    const article = ArticleContent.find(article => article.name === name);
+const ArticlePage = ({ match }) => {
+  const name = match.params.name;
+  const article = ArticleContent.find((article) => article.name === name);
 
-    const [articleInfo, setArticleInfo] = useState({ upvotes: 0, comments: [] });
+  const [articleInfo, setArticleInfo] = useState({ upvotes: 0, comments: [] });
 
-    useEffect(()=> {
-        
-        // setArticleInfo({ upvotes : Math.floor(Math.random() *10)});
+  useEffect(() => {
+    // setArticleInfo({ upvotes : Math.floor(Math.random() *10)});
 
-        const fetchData = async () => {
-            const result = await fetch(`/api/articles/${name}`);
-            const body = await result.json();
-            console.log(body);
-            setArticleInfo(body);
-            
-        }
-        fetchData();
- 
-    }, [name]);
+    const fetchData = async () => {
+      const result = await fetch(`/api/articles/${name}`);
+      const body = await result.json();
+      console.log(body);
+      setArticleInfo(body ?? { upvotes: 0, comments: [] });
+    };
+    fetchData();
+  }, [name]);
 
-    if(!article) return <NotFound/>;
+  if (!article) return <NotFound />;
 
-    const otherArticles = ArticleContent.filter(article => article.name !== name);
+  const otherArticles = ArticleContent.filter(
+    (article) => article.name !== name
+  );
 
-    return(
-        <>
-            <h2>{article.title}</h2>
-            <br/>
-            <UpvoteSection articleName={name} upvotes={articleInfo.upvotes} setArticleInfo={setArticleInfo} />
-            
-            {article.content.map((paragraph, key) => (
-                <p key={key}>{paragraph}</p>
-            ))}
+  return (
+    <>
+      <h2>{article.title}</h2>
+      <br />
+      <UpvoteSection
+        articleName={name}
+        upvotes={articleInfo.upvotes}
+        setArticleInfo={setArticleInfo}
+      />
 
-            <CommentList comments={articleInfo.comments} />
+      {article.content.map((paragraph, key) => (
+        <p key={key}>{paragraph}</p>
+      ))}
 
-            <AddCommentForm articleName={name} setArticleInfo={setArticleInfo} />
+      <CommentList comments={articleInfo.comments} />
 
-            <h4><u> Other Articles </u></h4>
-           <ArticleList articles={otherArticles} />
-        </>
-    );
-}
+      <AddCommentForm articleName={name} setArticleInfo={setArticleInfo} />
+
+      <h4>
+        <u> Other Articles </u>
+      </h4>
+      <ArticleList articles={otherArticles} />
+    </>
+  );
+};
 
 export default ArticlePage;
